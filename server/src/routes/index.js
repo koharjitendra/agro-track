@@ -1,0 +1,41 @@
+import { Router } from 'express';
+import authRoutes from '../modules/auth/routes.js';
+import usersRoutes from '../modules/users/routes.js';
+import cropCyclesRoutes from '../modules/cropCycles/routes.js';
+import expensesRoutes from '../modules/expenses/routes.js';
+import transactionsRoutes from '../modules/transactions/routes.js';
+import approvalsRoutes from '../modules/approvals/routes.js';
+import analyticsRoutes from '../modules/analytics/routes.js';
+import purchaseRequestsRoutes from '../modules/purchaseRequests/routes.js';
+import marketplaceRoutes from '../modules/marketplace/routes.js';
+import activitiesRoutes from '../modules/activities/routes.js';
+import inventoryRoutes from '../modules/inventory/routes.js';
+import agronomyRoutes from '../modules/agronomy/routes.js';
+import notificationsRoutes from '../modules/notifications/routes.js';
+import listingsRoutes from '../modules/listings/routes.js';
+import ordersRoutes from '../modules/orders/routes.js';
+import adminRoutes from '../modules/admin/routes.js';
+import reportsRoutes from '../modules/reports/routes.js';
+import { authenticate } from '../middlewares/auth.middleware.js';
+
+const router = Router();
+
+router.use('/api/auth', authRoutes);
+router.use('/api/users', authenticate, usersRoutes);
+router.use('/api/crop-cycles', authenticate, cropCyclesRoutes);
+router.use('/api/expenses', authenticate, expensesRoutes);
+router.use('/api/transactions', authenticate, transactionsRoutes);
+router.use('/api/approvals', authenticate, approvalsRoutes);
+router.use('/api/analytics', authenticate, analyticsRoutes);
+router.use('/api/purchase-requests', authenticate, purchaseRequestsRoutes);
+router.use('/api/marketplace', authenticate, marketplaceRoutes);
+router.use('/api', authenticate, activitiesRoutes);
+router.use('/api/inventory', authenticate, inventoryRoutes);
+router.use('/api/agronomy', authenticate, agronomyRoutes);
+router.use('/api/notifications', authenticate, notificationsRoutes);
+router.use('/api/listings', authenticate, listingsRoutes);
+router.use('/api/orders', authenticate, ordersRoutes);
+router.use('/api/admin', authenticate, adminRoutes);
+router.use('/api/reports', authenticate, reportsRoutes);
+
+export default router;
