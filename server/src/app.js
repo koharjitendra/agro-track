@@ -36,6 +36,15 @@ const authLimiter = rateLimit({
 app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/register', authLimiter);
 
+
+app.get('/', (_req, res) => {
+  res.json({
+    success: true,
+    status: 'Agro Track API is Running',
+    version : 1.1
+  });
+});
+
 app.get('/health', (_req, res) => {
   res.json({
     success: true,
