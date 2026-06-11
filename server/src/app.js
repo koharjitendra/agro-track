@@ -4,9 +4,14 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import mongoose from 'mongoose';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import config from './config/env.js';
 import routes from './routes/index.js';
 import { errorHandler } from './middlewares/error.middleware.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -54,6 +59,15 @@ app.get('/health', (_req, res) => {
 });
 
 app.use(routes);
+
+// Serve frontend build folder in production
+const distPath = path.join(__dirname, '../../client/dist');
+app.use(express.static(distPath));
+
+// Catch-all route to serve index.html for React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
+});
 
 app.use(errorHandler);
 

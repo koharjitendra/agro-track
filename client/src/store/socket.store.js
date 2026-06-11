@@ -2,7 +2,8 @@ import { create } from 'zustand';
 import { io } from 'socket.io-client';
 import { useAuthStore } from './auth.store.js';
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:8080';
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 
+  (window.location.hostname === 'localhost' ? 'http://localhost:8080' : window.location.origin);
 
 export const useSocketStore = create((set, get) => ({
   socket: null,
