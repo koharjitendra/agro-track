@@ -15,6 +15,9 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+// Trust first proxy (Render / load balancers)
+app.set('trust proxy', 1);
+
 app.use(helmet());
 app.use(
   cors({
