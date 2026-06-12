@@ -15,9 +15,12 @@ export const getWeatherData = async (lat, lon) => {
   // Open-Meteo free API key commercial bypass or custom API key routing check
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation_probability,windspeed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,windspeed_10m_max&timezone=auto${apiKey ? `&apikey=${apiKey}` : ''}`;
   
+  console.log(`[Weather Fetch] Fetching weather from URL: ${url}`);
   const res = await fetch(url);
   if (!res.ok) {
-    throw new Error('Failed to fetch weather from provider.');
+    const errorBody = await res.text().catch(() => 'No response body');
+    console.error(`[Weather Fetch Error] HTTP Status: ${res.status} - ${res.statusText}. Response body: ${errorBody}`);
+    throw new Error(`Failed to fetch weather from provider. Status: ${res.status}`);
   }
   const data = await res.json();
   cache.set(cacheKey, data, 15 * 60 * 1000); // 15 mins cache
